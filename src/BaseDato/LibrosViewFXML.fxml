@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BaseDato.LibrosViewFXMLController">
+   <children>
+      <TableView fx:id="tableViewLibros" prefHeight="200.0" prefWidth="587.0">
+        <columns>
+          <TableColumn fx:id="columnNombre" prefWidth="134.0" text="Nombre" />
+          <TableColumn fx:id="columnEditorial" prefWidth="126.0" text="Editorial" />
+            <TableColumn fx:id="columnPaginas" prefWidth="124.0" text="NºPaginas" />
+            <TableColumn fx:id="columnAutor" prefWidth="202.0" text="Autor" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
