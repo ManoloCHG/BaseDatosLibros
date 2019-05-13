@@ -12,6 +12,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -27,8 +28,11 @@ public class Graficoventana extends Application {
     private EntityManager em;
     
     public void start(Stage primaryStage) throws IOException {
+        StackPane rootMain = new StackPane();
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LibrosViewFXML.fxml"));
-        Parent root = fxmlLoader.load();
+        Parent rootLibrosViewFXML = fxmlLoader.load();
+        rootMain.getChildren().add(rootLibrosViewFXML);
         
         emf = Persistence.createEntityManagerFactory("BaseDatosPU");
         em = emf.createEntityManager();
@@ -37,7 +41,7 @@ public class Graficoventana extends Application {
         librosViewFXMLController.setEntityManager(em);
         librosViewFXMLController.cargarTodosLibros();
 
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(rootMain, 600, 600);
 
         primaryStage.setTitle("Agenda Contactos");
         primaryStage.setScene(scene);
