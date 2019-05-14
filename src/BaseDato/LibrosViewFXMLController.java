@@ -127,6 +127,10 @@ public class LibrosViewFXMLController implements Initializable {
             
             FormularioFXMLController ForomularioFXMLControler = (FormularioFXMLController) fxmlLoader.getController();  
             ForomularioFXMLControler.setRootContactosView(rootLibrosView);
+            ForomularioFXMLControler.setTableViewPrevio(tableViewLibros);
+            
+            libroSeleccionado = new Libro();
+            ForomularioFXMLControler.setLibro(entityManager, libroSeleccionado, true);
 
             // Añadir la vista de detalle al StackPane principal para que se muestre
             StackPane rootMain = (StackPane)rootLibrosView.getScene().getRoot();
@@ -141,8 +145,14 @@ public class LibrosViewFXMLController implements Initializable {
         try {
             // Cargar la vista de detalle
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FormularioFXML.fxml"));
-            Parent rootDetalleView = fxmlLoader.load();     
-
+            Parent rootDetalleView = fxmlLoader.load();    
+            
+            FormularioFXMLController foromularioFXMLControler = (FormularioFXMLController) fxmlLoader.getController();  
+            foromularioFXMLControler.setRootContactosView(rootLibrosView);
+            foromularioFXMLControler.setTableViewPrevio(tableViewLibros);
+            
+            foromularioFXMLControler.setLibro(entityManager, libroSeleccionado, false);
+            //foromularioFXMLControler.mostrarDatos();
             // Ocultar la vista de la lista
             rootLibrosView.setVisible(false);
 

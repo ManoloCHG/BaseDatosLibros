@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Mon May 13 13:30:50 CEST 2019:
- Iniciando instancia a816c00e-016a-b0f5-a787-0000029ee6e0 de Derby, versión The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): 
+Tue May 14 10:51:36 CEST 2019:
+ Iniciando instancia a816c00e-016a-b58a-3c3d-0000028fde50 de Derby, versión The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): 
 en el directorio de base de datos C:\Users\PC04\Documents\NetBeansProjects\BaseDatos\Database con el cargador de clases sun.misc.Launcher$AppClassLoader@6f94fa3e
 Cargado desde file:/C:/Program%20Files/glassfish-4.1.1/javadb/lib/derby.jar
 java.vendor=Oracle Corporation
@@ -11,7 +11,7 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=null
 Cargador de clases de base de datos iniciado - derby.database.classpath=''
-Mon May 13 13:32:26 CEST 2019 Thread[JavaFX Application Thread,5,main] Cleanup action starting
+Tue May 14 10:51:50 CEST 2019 Thread[JavaFX Application Thread,5,main] Cleanup action starting
 java.sql.SQLException: No se ha encontrado la base de datos 'BDAgendaContactos'.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
