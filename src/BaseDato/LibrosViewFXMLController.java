@@ -8,6 +8,7 @@ package BaseDato;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +19,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
@@ -152,7 +156,7 @@ public class LibrosViewFXMLController implements Initializable {
             foromularioFXMLControler.setTableViewPrevio(tableViewLibros);
             
             foromularioFXMLControler.setLibro(entityManager, libroSeleccionado, false);
-            //foromularioFXMLControler.mostrarDatos();
+            foromularioFXMLControler.mostrarDatos();
             // Ocultar la vista de la lista
             rootLibrosView.setVisible(false);
 
@@ -166,5 +170,33 @@ public class LibrosViewFXMLController implements Initializable {
 
     @FXML
     private void onActionButtonSuprimir(ActionEvent event) {
+        if(libroSeleccionado != null) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Confirmar");
+            alert.setHeaderText("¿Desea suprimir el siguiente registro?");
+            alert.setContentText(libroSeleccionado.getNombre() + " "
+                    + libroSeleccionado.getNombre());
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                entityManager.getTransaction().begin();
+                entityManager.remove(libroSeleccionado);
+                entityManager.getTransaction().commit();
+                tableViewLibros.getItems().remove(libroSeleccionado);
+                tableViewLibros.getFocusModel().focus(null);
+                tableViewLibros.requestFocus();
+            } else {
+                int numFilaSeleccionada = tableViewLibros.getSelectionModel().getSelectedIndex();
+                tableViewLibros.getItems().set(numFilaSeleccionada, libroSeleccionado);
+                TablePosition pos = new TablePosition(tableViewLibros, numFilaSeleccionada, null);
+                tableViewLibros.getFocusModel().focus(pos);
+                tableViewLibros.requestFocus();            
+            }
+        } else {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Atención");
+            alert.setHeaderText("Debe seleccionar un registro");
+            alert.showAndWait();
+        }
     }
 }
+
