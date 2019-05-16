@@ -129,12 +129,12 @@ public class LibrosViewFXMLController implements Initializable {
             // Ocultar la vista de la lista
             rootLibrosView.setVisible(false);
             
-            FormularioFXMLController ForomularioFXMLControler = (FormularioFXMLController) fxmlLoader.getController();  
-            ForomularioFXMLControler.setRootContactosView(rootLibrosView);
-            ForomularioFXMLControler.setTableViewPrevio(tableViewLibros);
+            FormularioFXMLController foromularioFXMLControler = (FormularioFXMLController) fxmlLoader.getController();  
+            foromularioFXMLControler.setRootContactosView(rootLibrosView);
+            foromularioFXMLControler.setTableViewPrevio(tableViewLibros);
             
             libroSeleccionado = new Libro();
-            ForomularioFXMLControler.setLibro(entityManager, libroSeleccionado, true);
+            foromularioFXMLControler.setLibro(entityManager, libroSeleccionado, true);
 
             // Añadir la vista de detalle al StackPane principal para que se muestre
             StackPane rootMain = (StackPane)rootLibrosView.getScene().getRoot();
@@ -146,25 +146,32 @@ public class LibrosViewFXMLController implements Initializable {
 
     @FXML
     private void onActionButtonEditar(ActionEvent event) {
-        try {
-            // Cargar la vista de detalle
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FormularioFXML.fxml"));
-            Parent rootDetalleView = fxmlLoader.load();    
-            
-            FormularioFXMLController foromularioFXMLControler = (FormularioFXMLController) fxmlLoader.getController();  
-            foromularioFXMLControler.setRootContactosView(rootLibrosView);
-            foromularioFXMLControler.setTableViewPrevio(tableViewLibros);
-            
-            foromularioFXMLControler.setLibro(entityManager, libroSeleccionado, false);
-            foromularioFXMLControler.mostrarDatos();
-            // Ocultar la vista de la lista
-            rootLibrosView.setVisible(false);
-
-            // Añadir la vista de detalle al StackPane principal para que se muestre
-            StackPane rootMain = (StackPane)rootLibrosView.getScene().getRoot();
-            rootMain.getChildren().add(rootDetalleView);
-        } catch (IOException ex) {
-            Logger.getLogger(LibrosViewFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        if(libroSeleccionado != null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FormularioFXML.fxml"));
+                Parent rootDetalleView = fxmlLoader.load();
+                
+                rootLibrosView.setVisible(false);
+                
+                StackPane rootMain = (StackPane)rootLibrosView.getScene().getRoot();
+                rootMain.getChildren().add(rootDetalleView);
+                
+                FormularioFXMLController foromularioFXMLControler = (FormularioFXMLController) fxmlLoader.getController();  
+                foromularioFXMLControler.setRootContactosView(rootLibrosView);
+                foromularioFXMLControler.setTableViewPrevio(tableViewLibros);
+//                personaDetalleViewController.setEntityManager(entityManager);
+//                personaDetalleViewController.setPersona(personaSeleccionada);
+//                personaDetalleViewController.setNuevaPersona(false);
+                foromularioFXMLControler.setLibro(entityManager, libroSeleccionado, false);
+                foromularioFXMLControler.mostrarDatos();
+            } catch (IOException ex) {
+                Logger.getLogger(LibrosViewFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Atención");
+            alert.setHeaderText("Debe seleccionar un registro");
+            alert.showAndWait();
         }
     }
 

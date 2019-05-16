@@ -5,20 +5,29 @@
  */
 package BaseDato;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -29,10 +38,12 @@ import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -74,9 +85,9 @@ public class FormularioFXMLController implements Initializable {
     @FXML
     private ComboBox<Autor> comboBoxAutor;
     @FXML
-    private ComboBox<?> comboBoxPais;
+    private ComboBox<String> comboBoxPais;
     @FXML
-    private ComboBox<?> comboBoxIdioma;
+    private ComboBox<String> comboBoxIdioma;
     @FXML
     private DatePicker datePickerFechaEdicion;
     @FXML
@@ -150,23 +161,24 @@ public class FormularioFXMLController implements Initializable {
             LocalDate localDate = zdt.toLocalDate();
             datePickerFechaEdicion.setValue(localDate);
         }
-////        if (libro.getFoto() != null) {
-////            String imageFileName = libro.getFoto();
-////            File file = new File(CARPETA_FOTOS + "/" + imageFileName);
-////            if (file.exists()) {
-////                Image image = new Image(file.toURI().toString());
-////                imageViewFoto.setImage(image);
-////            } else {
-////                Alert alert = new Alert(AlertType.INFORMATION, "No se encuentra la imagen");
-////                alert.showAndWait();
-////            }
-////        }
-        Query queryProvinciaFindAll = entityManager.createNamedQuery("Libro.findAll");
+        if (libro.getFoto() != null) {
+            String imageFileName = libro.getFoto();
+            File file = new File(CARPETA_FOTOS + "/" + imageFileName);
+            if (file.exists()) {
+                Image image = new Image(file.toURI().toString());
+                imageViewFoto.setImage(image);
+            } else {
+            Alert alert = new Alert(AlertType.INFORMATION, "No se encuentra la imagen");
+            alert.showAndWait();
+    }
+        }
+        Query queryProvinciaFindAll = entityManager.createNamedQuery("Autor.findAll");
         List listAutor = queryProvinciaFindAll.getResultList();
         comboBoxAutor.setItems(FXCollections.observableList(listAutor));
     
-        if (libro.getAutor() != null) {
-        comboBoxAutor.setValue(libro.getAutor());}
+        if (libro.getAutor()!= null) {
+            comboBoxAutor.setValue(libro.getAutor());
+        }
         comboBoxAutor.setCellFactory((ListView<Autor> l) -> new ListCell<Autor>() {
             @Override
             protected void updateItem(Autor autor, boolean empty) {
@@ -174,17 +186,18 @@ public class FormularioFXMLController implements Initializable {
                 if (autor == null || empty) {
                     setText("");
                 } else {
-                    setText(autor.getNombre()+" "+autor.getApellidos());
+                    setText(autor.getNombre()+ " " + autor.getApellidos());
                 }
             }
         });
+        // Formato para el valor mostrado actualmente como seleccionado
         comboBoxAutor.setConverter(new StringConverter<Autor>() {
             @Override
             public String toString(Autor autor) {
-                if (libro == null) {
+                if (autor == null) {
                     return null;
                 } else {
-                    return autor.getNombre()+" "+autor.getApellidos();
+                    return autor.getNombre() + " " + autor.getApellidos();
                 }
             }
 
@@ -193,6 +206,28 @@ public class FormularioFXMLController implements Initializable {
                 return null;
             }
         });
+        ArrayList<String> idioma = new ArrayList<String>();
+        // Añade el elemento al ArrayList
+        idioma.add("Español");
+        idioma.add("Ingles");
+        idioma.add("Portugues");
+        idioma.add("Frances");
+        idioma.add("Italiano");
+        comboBoxIdioma.setItems(FXCollections.observableArrayList(idioma));
+        if (libro.getIdioma()!= null) {
+            comboBoxIdioma.setValue(libro.getIdioma());
+        }
+        ArrayList<String> pais = new ArrayList<String>();
+        // Añade el elemento al ArrayList
+        pais.add("España");
+        pais.add("ReinoUnido");
+        pais.add("Portugal");
+        pais.add("Francia");
+        pais.add("Italia");
+        comboBoxPais.setItems(FXCollections.observableArrayList(pais));
+        if (libro.getPaisDeEdicion() != null) {
+            comboBoxPais.setValue(libro.getPaisDeEdicion());
+        }
 }
     
     @FXML
@@ -256,7 +291,27 @@ public class FormularioFXMLController implements Initializable {
                 alert.showAndWait();
             }
         }
-        
+        if(comboBoxAutor.getValue() != null) {
+                libro.setAutor(comboBoxAutor.getValue());
+            } else {
+                Alert alert = new Alert(AlertType.INFORMATION, "Debe indicar un autor");
+                alert.showAndWait();
+                errorFormato = true;
+        }
+        if(comboBoxIdioma.getValue() != null) {
+            libro.setIdioma(comboBoxIdioma.getValue());
+        } else {
+            Alert alert = new Alert(AlertType.INFORMATION, "Debe indicar un Idioma");
+            alert.showAndWait();
+            errorFormato = true;
+        }
+        if(comboBoxPais.getValue() != null) {
+            libro.setPaisDeEdicion(comboBoxPais.getValue());
+        } else {
+            Alert alert = new Alert(AlertType.INFORMATION, "Debe indicar un Pais");
+            alert.showAndWait();
+            errorFormato = true;
+        }
         rootLibrosView.setVisible(true);
     }
 
@@ -277,5 +332,59 @@ public class FormularioFXMLController implements Initializable {
 
     @FXML
     private void onActionButtonExaminar(ActionEvent event) {
+        File carpetaFotos = new File(CARPETA_FOTOS);
+        if (!carpetaFotos.exists()) {
+            carpetaFotos.mkdir();
+        }
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar imagen");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Imágenes (jpg, png)", "*.jpg", "*.png"),
+                new FileChooser.ExtensionFilter("Todos los archivos", "*.*")
+        );
+        File file = fileChooser.showOpenDialog(rootFormularioFXMLView.getScene().getWindow());
+        if (file != null) {
+            try {
+                Files.copy(file.toPath(), new File(CARPETA_FOTOS + "/" + file.getName()).toPath());
+                libro.setFoto(file.getName());
+                Image image = new Image(file.toURI().toString());
+                imageViewFoto.setImage(image);
+            } catch (FileAlreadyExistsException ex) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Nombre de archivo duplicado");
+                alert.showAndWait();
+            } catch (IOException ex) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "No se ha podido guardar la imagen");
+                alert.showAndWait();
+            }
+        }
+    }
+
+    @FXML
+    private void onActionSuprimirFoto(ActionEvent event) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar supresión de imagen");
+        alert.setHeaderText("¿Desea SUPRIMIR el archivo asociado a la imagen, \n"
+                + "quitar la foto pero MANTENER el archivo, \no CANCELAR la operación?");
+        alert.setContentText("Elija la opción deseada:");
+
+        ButtonType buttonTypeEliminar = new ButtonType("Suprimir");
+        ButtonType buttonTypeMantener = new ButtonType("Mantener");
+        ButtonType buttonTypeCancel = new ButtonType("Cancelar", ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(buttonTypeEliminar, buttonTypeMantener, buttonTypeCancel);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonTypeEliminar){
+            String imageFileName = libro.getFoto();
+            File file = new File(CARPETA_FOTOS + "/" + imageFileName);
+            if(file.exists()) {
+                file.delete();
+            }
+            libro.setFoto(null);
+            imageViewFoto.setImage(null);
+        } else if (result.get() == buttonTypeMantener) {
+            libro.setFoto(null);
+            imageViewFoto.setImage(null);
+        } 
     }
 }

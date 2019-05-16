@@ -43,7 +43,7 @@ public class Graficoventana extends Application {
 
         Scene scene = new Scene(rootMain, 600, 600);
 
-        primaryStage.setTitle("Agenda Contactos");
+        primaryStage.setTitle("Libreria");
         primaryStage.setScene(scene);
         primaryStage.show();                
     }

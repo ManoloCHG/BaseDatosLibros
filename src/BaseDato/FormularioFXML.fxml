@@ -9,6 +9,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -18,6 +19,11 @@
 
 <AnchorPane id="AnchorPane" fx:id="rootFormularioFXMLView" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BaseDato.FormularioFXMLController">
    <children>
+      <ImageView fitHeight="600.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Fotos/Las-bibliotecas-estan-cargadas-de-libros-pero-hay-unos-que-destacan-sobre-el-resto.jpg" />
+         </image>
+      </ImageView>
       <GridPane layoutX="7.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="-7.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" />
@@ -40,19 +46,22 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Nombre" />
-            <Label text="NºPáginas" GridPane.rowIndex="1" />
-            <Label text="Editorial" GridPane.rowIndex="2" />
-            <Label text="Encuadernacion" GridPane.rowIndex="3" />
-            <Label text="Año_Edicion" GridPane.rowIndex="5" />
-            <Label text="ISBN" GridPane.rowIndex="4" />
-            <Label text="Pais_Edicion" GridPane.rowIndex="6" />
-            <Label text="Precio" GridPane.rowIndex="7" />
-            <Label text="Stock" GridPane.rowIndex="8" />
-            <Label text="Foto" GridPane.rowIndex="12" />
-            <Label text="Idioma" GridPane.rowIndex="9" />
-            <Label text="Autor" GridPane.rowIndex="10" />
-            <Label text="Descripcion" GridPane.rowIndex="11" />
+            <Label text="Nombre" textFill="WHITE" />
+            <Label text="NºPáginas" textFill="WHITE" GridPane.rowIndex="1" />
+            <Label text="Editorial" textFill="WHITE" GridPane.rowIndex="2" />
+            <Label text="Encuadernacion" textFill="WHITE" GridPane.rowIndex="3" />
+            <Label text="Año_Edicion" textFill="WHITE" GridPane.rowIndex="5" />
+            <Label text="ISBN" textFill="WHITE" GridPane.rowIndex="4" />
+            <Label text="Pais_Edicion" textFill="WHITE" GridPane.rowIndex="6" />
+            <Label text="Precio" textFill="WHITE" GridPane.rowIndex="7" />
+            <Label text="Stock" textFill="WHITE" GridPane.rowIndex="8" />
+            <Label text="Foto" textFill="WHITE" GridPane.rowIndex="12" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin></Label>
+            <Label text="Idioma" textFill="WHITE" GridPane.rowIndex="9" />
+            <Label text="Autor" textFill="WHITE" GridPane.rowIndex="10" />
+            <Label text="Descripcion" textFill="WHITE" GridPane.rowIndex="11" GridPane.valignment="TOP" />
             <TextArea fx:id="textAreaDescripcion" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
             <TextField fx:id="textFieldNombre" GridPane.columnIndex="1">
                <GridPane.margin>
@@ -70,7 +79,7 @@
             <DatePicker fx:id="datePickerFechaEdicion" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <RadioButton fx:id="radioButtonTapadura" mnemonicParsing="false" text="Tapa Dura">
+                  <RadioButton fx:id="radioButtonTapadura" mnemonicParsing="false" text="Tapa Dura" textFill="WHITE">
                      <HBox.margin>
                         <Insets top="6.0" />
                      </HBox.margin>
@@ -78,7 +87,7 @@
                         <Insets left="20.0" />
                      </padding>
                   </RadioButton>
-                  <RadioButton fx:id="radioButtonTapablanda" mnemonicParsing="false" text="Tapa Blanda">
+                  <RadioButton fx:id="radioButtonTapablanda" mnemonicParsing="false" text="Tapa Blanda" textFill="WHITE">
                      <padding>
                         <Insets left="20.0" />
                      </padding>
@@ -86,7 +95,7 @@
                         <Insets top="6.0" />
                      </HBox.margin>
                   </RadioButton>
-                  <RadioButton fx:id="radioButtonDigital" mnemonicParsing="false" text="Digital(EPUB)">
+                  <RadioButton fx:id="radioButtonDigital" mnemonicParsing="false" text="Digital(EPUB)" textFill="WHITE">
                      <HBox.margin>
                         <Insets top="6.0" />
                      </HBox.margin>
@@ -112,6 +121,7 @@
                </GridPane.margin>
             </Button>
             <ImageView fx:id="imageViewFoto" fitHeight="123.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+            <Button mnemonicParsing="false" onAction="#onActionSuprimirFoto" text="Suprimir" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="12" />
          </children>
          <padding>
             <Insets left="20.0" top="20.0" />
