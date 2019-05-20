@@ -21,7 +21,7 @@
    <children>
       <ImageView fitHeight="600.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../Fotos/Las-bibliotecas-estan-cargadas-de-libros-pero-hay-unos-que-destacan-sobre-el-resto.jpg" />
+            <Image url="@../Fondos/Las-bibliotecas-estan-cargadas-de-libros-pero-hay-unos-que-destacan-sobre-el-resto.jpg" />
          </image>
       </ImageView>
       <GridPane layoutX="7.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="-7.0" AnchorPane.topAnchor="0.0">

@@ -19,7 +19,7 @@
    <children>
       <ImageView fitHeight="619.0" fitWidth="606.0" layoutX="-3.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../Fotos/libros.gif" />
+            <Image url="@../Fondos/libros.gif" />
          </image>
       </ImageView>
       <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -64,8 +64,8 @@
                   <Insets top="20.0" />
                </VBox.margin>
                <children>
-                  <Label text="Nombre :" GridPane.halignment="RIGHT" />
-                  <Label text="Editorial:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <Label text="Nombre :" textFill="WHITE" GridPane.halignment="RIGHT" />
+                  <Label text="Editorial:" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                   <TextField fx:id="textFieldNombre" GridPane.columnIndex="1" />
                   <TextField fx:id="textFieldEditorial" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Button mnemonicParsing="false" onAction="#onActionButtonGuardar" text="Guardar" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" />

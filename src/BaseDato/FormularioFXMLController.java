@@ -123,16 +123,17 @@ public class FormularioFXMLController implements Initializable {
     public void setLibro(EntityManager entityManager, Libro libro, boolean nevoLibro) {
         this.entityManager = entityManager;
         entityManager.getTransaction().begin();
-        if (!nevoLibro) {
+        try{ if (!nevoLibro) {
             this.libro = entityManager.find(Libro.class, libro.getId());
         } else {
             this.libro = libro;
         }
         this.nuevoLibro = nevoLibro;
+        } catch(Exception e){}
     }
     
     public void mostrarDatos() {
-        textAreaDescripcion.setText(libro.getDescripcion());
+    try{textAreaDescripcion.setText(libro.getDescripcion());
         textFieldNombre.setText(libro.getNombre());
         textFieldPaginas.setText(String.valueOf(libro.getNºpaginas()));
         textFieldEditorial.setText(libro.getEditorial());
@@ -228,6 +229,7 @@ public class FormularioFXMLController implements Initializable {
         if (libro.getPaisDeEdicion() != null) {
             comboBoxPais.setValue(libro.getPaisDeEdicion());
         }
+    }catch (Exception e){}
 }
     
     @FXML

@@ -104,7 +104,8 @@ public class LibrosViewFXMLController implements Initializable {
 
     @FXML
     private void onActionButtonGuardar(ActionEvent event) {
-        if (libroSeleccionado != null) {
+        try{
+            if (libroSeleccionado != null) {
             libroSeleccionado.setNombre(textFieldNombre.getText());
             libroSeleccionado.setNombre(textFieldNombre.getText());
             entityManager.getTransaction().begin();
@@ -117,6 +118,7 @@ public class LibrosViewFXMLController implements Initializable {
             tableViewLibros.getFocusModel().focus(pos);
             tableViewLibros.requestFocus();
         }
+        }catch(Exception e){}
     }
 
     @FXML
@@ -135,6 +137,7 @@ public class LibrosViewFXMLController implements Initializable {
             
             libroSeleccionado = new Libro();
             foromularioFXMLControler.setLibro(entityManager, libroSeleccionado, true);
+            foromularioFXMLControler.mostrarDatos();
 
             // Añadir la vista de detalle al StackPane principal para que se muestre
             StackPane rootMain = (StackPane)rootLibrosView.getScene().getRoot();
@@ -146,7 +149,7 @@ public class LibrosViewFXMLController implements Initializable {
 
     @FXML
     private void onActionButtonEditar(ActionEvent event) {
-        if(libroSeleccionado != null) {
+        if(libroSeleccionado != null && libroSeleccionado.getId() != null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FormularioFXML.fxml"));
                 Parent rootDetalleView = fxmlLoader.load();
@@ -177,7 +180,7 @@ public class LibrosViewFXMLController implements Initializable {
 
     @FXML
     private void onActionButtonSuprimir(ActionEvent event) {
-        if(libroSeleccionado != null) {
+        if(libroSeleccionado != null && libroSeleccionado.getId() != null) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Confirmar");
             alert.setHeaderText("¿Desea suprimir el siguiente registro?");
@@ -186,6 +189,7 @@ public class LibrosViewFXMLController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
                 entityManager.getTransaction().begin();
+                entityManager.merge(libroSeleccionado);
                 entityManager.remove(libroSeleccionado);
                 entityManager.getTransaction().commit();
                 tableViewLibros.getItems().remove(libroSeleccionado);
