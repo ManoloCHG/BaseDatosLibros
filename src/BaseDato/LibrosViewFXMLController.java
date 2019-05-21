@@ -107,7 +107,7 @@ public class LibrosViewFXMLController implements Initializable {
         try{
             if (libroSeleccionado != null) {
             libroSeleccionado.setNombre(textFieldNombre.getText());
-            libroSeleccionado.setNombre(textFieldNombre.getText());
+            libroSeleccionado.setEditorial(textFieldEditorial.getText());
             entityManager.getTransaction().begin();
             entityManager.merge(libroSeleccionado);
             entityManager.getTransaction().commit();
@@ -153,7 +153,6 @@ public class LibrosViewFXMLController implements Initializable {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FormularioFXML.fxml"));
                 Parent rootDetalleView = fxmlLoader.load();
-                
                 rootLibrosView.setVisible(false);
                 
                 StackPane rootMain = (StackPane)rootLibrosView.getScene().getRoot();
@@ -162,9 +161,6 @@ public class LibrosViewFXMLController implements Initializable {
                 FormularioFXMLController foromularioFXMLControler = (FormularioFXMLController) fxmlLoader.getController();  
                 foromularioFXMLControler.setRootContactosView(rootLibrosView);
                 foromularioFXMLControler.setTableViewPrevio(tableViewLibros);
-//                personaDetalleViewController.setEntityManager(entityManager);
-//                personaDetalleViewController.setPersona(personaSeleccionada);
-//                personaDetalleViewController.setNuevaPersona(false);
                 foromularioFXMLControler.setLibro(entityManager, libroSeleccionado, false);
                 foromularioFXMLControler.mostrarDatos();
             } catch (IOException ex) {

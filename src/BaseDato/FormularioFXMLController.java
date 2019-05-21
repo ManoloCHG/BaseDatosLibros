@@ -207,6 +207,7 @@ public class FormularioFXMLController implements Initializable {
                 return null;
             }
         });
+        //Creo un arraylist para añadirlo luego al combobox
         ArrayList<String> idioma = new ArrayList<String>();
         // Añade el elemento al ArrayList
         idioma.add("Español");
@@ -214,6 +215,7 @@ public class FormularioFXMLController implements Initializable {
         idioma.add("Portugues");
         idioma.add("Frances");
         idioma.add("Italiano");
+        //Añado al combobox los datos de la lista
         comboBoxIdioma.setItems(FXCollections.observableArrayList(idioma));
         if (libro.getIdioma()!= null) {
             comboBoxIdioma.setValue(libro.getIdioma());
@@ -242,7 +244,6 @@ public class FormularioFXMLController implements Initializable {
         libro.setNºpaginas(Integer.valueOf(textFieldPaginas.getText()));
         libro.setEditorial(textFieldEditorial.getText());
         libro.setIsbn(textFieldIsbn.getText());
-        textFieldPrecio.setText(String.valueOf(libro.getPrecio()));
         libro.setPrecio(BigDecimal.valueOf(Double.valueOf(textFieldPrecio.getText())));
         if(radioButtonTapadura.isSelected()) {
                 libro.setEncuadernacion(TAPA_DURA);
@@ -288,9 +289,11 @@ public class FormularioFXMLController implements Initializable {
             } catch (RollbackException ex) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("No se han podido guardar los cambios. "
-                        + "Compruebe que los datos cumplen los requisitos");
-                alert.setContentText(ex.getLocalizedMessage());
+// Aqui he modificado un par de lineas borrado el mensage de la aplicacion y añadiendo indicaciones para el usuario  
+                        + "Compruebe que no supera los 60 caracteres");
                 alert.showAndWait();
+// inicio de nuevo la transaccion porque al introducirtexto superior al permitido se detiene la aplicacion una vez y pretendes deternerla otra al darle a cancelar por eso la riniciamos 
+                entityManager.getTransaction().begin();
             }
         }
         if(comboBoxAutor.getValue() != null) {
@@ -300,6 +303,7 @@ public class FormularioFXMLController implements Initializable {
                 alert.showAndWait();
                 errorFormato = true;
         }
+        // aqui obtengo y guardo los datos seleccionados de la arry 
         if(comboBoxIdioma.getValue() != null) {
             libro.setIdioma(comboBoxIdioma.getValue());
         } else {
@@ -320,7 +324,6 @@ public class FormularioFXMLController implements Initializable {
     @FXML
     private void onActionButtonCancelar(ActionEvent event) {
         entityManager.getTransaction().rollback();
-
         
         StackPane rootMain = (StackPane) rootFormularioFXMLView.getScene().getRoot();
         rootMain.getChildren().remove(rootFormularioFXMLView);
